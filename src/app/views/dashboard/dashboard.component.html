@@ -1,0 +1,42 @@
+<!--added a form to submit a city-->
+<form
+  [formGroup]="weatherSearchForm"
+  (ngSubmit)="getWeather(weatherSearchForm.value)"
+  class="form-inline">
+  <div class="form-group mr-2 mb-2">
+    <input formControlName="city" type="text" class="form-control" placeholder="Find a City">
+  </div>
+  <button type="submit" class="btn btn-primary mb-2">Add a City</button>
+  <div class="ml-2"> {{error}} </div>
+</form>
+<br/>
+<br/>
+<!--city card component-->
+<section>
+  <div class="row">
+    <app-weathercard class="col-sm-2 col-lg-2"
+                     *ngFor="let array of weatherData"
+                     [title]="array.name"
+                     [clouds]="array.weather[0].main"
+                     [temp]="array.main.temp"
+                     [temp_min]="array.main.temp_min"
+                     [temp_max]="array.main.temp_max"
+                     [show]="showForecast"
+                     (removeCity)="removeCity($event)"
+                     (toggleForecast)="toggleForecast($event)">
+    </app-weathercard>
+  </div>
+</section>
+<!--forecast component-->
+<section *ngIf="showForecast" class="bg-white">
+  <div class="row">
+    <app-forecast class="col-sm-2 col-lg-2"
+                  *ngFor="let day of daysForecast"
+                  [day]="day.day"
+                  [state]="day.state"
+                  [temp]="day.temp">
+    </app-forecast>
+  </div>
+</section>
+<br/>
+
